@@ -8,18 +8,61 @@
         Title="Список дел" 
         Height="450" Width="800">
     <Grid>
-        <Button Content="Добавить  Задачу" 
-        HorizontalAlignment="Left" 
-        Margin="50,150,0,0" 
-        VerticalAlignment="Top" 
-        RenderTransformOrigin="0.628,0.543" Background="#FF2BBC1A" Width="120" Height="30"/>
-        <Button Content="Удалить задачу" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FFED0101"/>
-        <DatePicker HorizontalAlignment="Left" Margin="50,79,0,0" VerticalAlignment="Top" Height="30" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Margin="300,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" Height="30"/>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Width="400" Height="200" Margin="150,0,50,0"/>
-        <Label>
-            <Label Content="Выберите дату и время" Margin="35,25,0,0"/>
-        </Label>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <!-- Левая панель - управление -->
+        <StackPanel Grid.Column="0" Margin="20">
+            <Label Content="Выберите дату:" FontWeight="Bold"/>
+            <DatePicker Name="Data" Height="30" Margin="0,5,0,15"/>
+
+            <Label Content="Название задачи:" FontWeight="Bold"/>
+            <TextBox Name="vvod" Height="30" Margin="0,5,0,15"/>
+
+            <Button Content="Добавить задачу" Name="create" 
+                    Height="35" Background="#FF2BBC1A" 
+                    FontWeight="Bold" Margin="0,5,0,10"/>
+
+            <Button Content="Задача выполнена" Name="complete"  
+                    Height="35" Background="#FF2196F3"
+                    FontWeight="Bold" Margin="0,5,0,10"/>
+
+            <Button Content="Удалить задачу" Name="delete"  
+                    Height="35" Background="#FFED0101"
+                    FontWeight="Bold" Margin="0,5,0,10"/>
+        </StackPanel>
+
+        <!-- Правая панель - список задач -->
+        <StackPanel Grid.Column="1" Margin="20">
+            <Label Content="Список задач:" FontWeight="Bold" FontSize="14"/>
+            <ListBox Name="tablica" 
+                     Width="Auto" Height="300" 
+                     Background="#FFF0F0F0"
+                     BorderThickness="1"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayText}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                                            <Setter Property="Foreground" Value="Green"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsCompleted}" Value="False">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
     </Grid>
 </Window>
